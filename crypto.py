@@ -15,7 +15,8 @@ TODAY = date.today().strftime("%Y-%m-%d") # today's date and convert it into str
 
 st.title("Crypto Prediction App") # title of the app
 
-cryptos = ("BTC-USD", "ETH-USD", "BNB-USD", "USDT-USD","HEX-USD") # list of cryptos i.e. apple, google, microsoft, GameStop
+# list of cryptos i.e. apple, google, microsoft, GameStop
+cryptos = ("BTC-USD", "ETH-USD", "BNB-USD", "USDT-USD", "HEX-USD", , "SOL-USD")
 
 selected_cryptos = st.selectbox("Select dataset for prediction", cryptos) # select the crypto from the select box and return it into selected_cryptos variable
 
