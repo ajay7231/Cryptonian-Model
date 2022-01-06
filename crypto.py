@@ -80,8 +80,8 @@ st.subheader('Raw Data')  # subheader for raw data
 st.write(data.tail())  # display the last 5 rows of the data
 
 repData = data
-repData['Close'] = getCurrRate(selected_currency)*data['Close']
-repData['Open'] = getCurrRate(selected_currency)*data['Open']
+repData['Close'] = getCurrRate(selected_currency)*repData['Close']
+repData['Open'] = getCurrRate(selected_currency)*repData['Open']
 
 def plot_raw_data():
     fig = go.Figure()
