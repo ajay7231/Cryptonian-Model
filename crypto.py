@@ -2,7 +2,7 @@
 # yahoo finance to get the crypto data
 import streamlit as st
 from datetime import date
-from currencyconverter import CurrencyConverter 
+# from currencyconverter import CurrencyConverter 
 
 import yfinance as yf
 from fbprophet import Prophet
