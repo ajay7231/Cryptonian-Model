@@ -50,13 +50,13 @@ def load_data(ticker):  # ticker is basically the selected_cryptos variable
     data = yf.download(ticker, START, TODAY)
     data.reset_index(inplace=True)  # This puts date in the very first column
     repData = data
-    repData[['Open', 'Close', 'High', 'Low', 'Adj Close']] = rate * repData[['Open', 'Close', 'High', 'Low', 'Adj Close']]
-    # repData['Close'] = rate*repData['Close']
-    # repData['Open'] = rate*repData['Open']
-    # repData['High'] = rate*repData['High']
-    # repData['Low'] = rate*repData['Low']
-    # repData['Volume'] = rate * repData['Volume']
-    # repData['Adj Close'] = rate * repData['Adj Close']
+    # repData[['Open', 'Close', 'High', 'Low', 'Adj Close']] = rate * repData[['Open', 'Close', 'High', 'Low', 'Adj Close']]
+    repData['Close'] = rate*repData['Close']
+    repData['Open'] = rate*repData['Open']
+    repData['High'] = rate*repData['High']
+    repData['Low'] = rate*repData['Low']
+    repData['Volume'] = rate * repData['Volume']
+    repData['Adj Close'] = rate * repData['Adj Close']
 
     return [data, repData]
 
