@@ -14,10 +14,9 @@ from plotly import graph_objs as go
 url = 'https://api.exchangerate-api.com/v4/latest/USD'
 
 # Get the data from the API
-async def getCurrRate(to_currency):
-    data = await requests.get(url).json()
-    currencies = data['rates']
-    return currencies[to_currency]
+def getCurrRate(to_currency):
+    data = requests.get(url).json()
+    return float(data['rates'][to_currency])
 
 
 START = "2015-01-01"  # start date
@@ -80,6 +79,7 @@ st.subheader('Raw Data')  # subheader for raw data
 st.write(data.tail())  # display the last 5 rows of the data
 
 repData = data
+getCurrRate(selected_currency)
 repData['Close'] = getCurrRate(selected_currency)*repData['Close']
 repData['Open'] = getCurrRate(selected_currency)*repData['Open']
 
