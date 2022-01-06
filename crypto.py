@@ -1,5 +1,6 @@
 # Prophet is basically a forecasting model that can be used to predict future values of time series data.
 # yahoo finance to get the crypto data
+from requests.api import get
 import streamlit as st
 from datetime import date
 import requests
@@ -13,31 +14,16 @@ from plotly import graph_objs as go
 url = 'https://api.exchangerate-api.com/v4/latest/USD'
 
 # Get the data from the API
-
-
-class RealTimeCurrencyConverter():
-    def __init__(self, url):
-        self.data = requests.get(url).json()
-        self.currencies = self.data['rates']
-    # Get the conversion rate
-
-    def convert(self, from_currency, to_currency, amount):
-        initial_amount = amount
-        # first convert it into USD if it is not in USD.
-        # because our base currency is USD
-        if from_currency != 'USD':
-            amount = amount / self.currencies[from_currency]
-
-        # limiting the precision to 4 decimal places
-        amount = round(amount * self.currencies[to_currency], 4)
-        return amount
+async def getCurrRate(to_currency):
+    data = await requests.get(url).json()
+    currencies = data['rates']
+    return currencies[to_currency]
 
 
 START = "2015-01-01"  # start date
 # today's date and convert it into string format
 TODAY = date.today().strftime("%Y-%m-%d")
 
-currencyConverter = RealTimeCurrencyConverter(url)
 
 st.title("Crypto Prediction App")  # title of the app
 
@@ -66,8 +52,8 @@ cryptos = ("BTC", "ETH", "BNB",
            "USDT", "HEX", "SOL", "DOGE", "SHIB")
 
 # select the crypto from the select box and return it into selected_cryptos variable
-selected_cryptos = st.selectbox("Select dataset for prediction", cryptos)
-currencies = st.selectbox("Select currencies", currencies)
+selected_cryptos = st.selectbox("Select Cryptocurrency for prediction", cryptos)
+selected_currency= st.selectbox("Select currency", currencies)
 
 # slider to select the number of years of prediction from 1 to 4
 n_years = st.slider("Years Of prediction:", 1, 4)
@@ -97,9 +83,9 @@ st.write(data.tail())  # display the last 5 rows of the data
 def plot_raw_data():
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'],
-                  y=data['Open'], name='crypto_open'))
+                  y=data['Open']*getCurrRate(selected_currency), name='crypto_open'))
     fig.add_trace(go.Scatter(x=data['Date'],
-                  y=data['Close'], name='crypto_close'))
+                  y=data['Close']*getCurrRate(selected_currency), name='crypto_close'))
     fig.layout.update(title_text="Time Series Data",
                       xaxis_rangeslider_visible=True)
     st.plotly_chart(fig)
