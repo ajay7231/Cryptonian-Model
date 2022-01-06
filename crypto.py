@@ -58,30 +58,30 @@ selected_currency= st.selectbox("Select currency", currencies)
 n_years = st.slider("Years Of prediction:", 1, 4)
 
 period = n_years * 365  # number of days in a year
-
+# repData = None
 
 @st.cache  # store the donwloaded data in the cache so we don't have to download it again
 def load_data(ticker):  # ticker is basically the selected_cryptos variable
     # to download the data from yahoo finance for a specified start and end date
     data = yf.download(ticker, START, TODAY)
     data.reset_index(inplace=True)  # This puts date in the very first column
-    return data
+    repData = data.copy()
+    repData['Close'] = getCurrRate(selected_currency)*repData['Close']
+    repData['Open'] = getCurrRate(selected_currency)*repData['Open']
+    return data, repData
 
 
 # text to show the loading of data
 data_load_state = st.text("Loading data...")
 
-data = load_data(selected_cryptos+"-USD")  # synchronous call to function
+data,repData = load_data(selected_cryptos+"-USD")  # synchronous call to function
 # after the data is loaded, we can plot the raw data
 data_load_state.text("Loading data...done!")
 
 st.subheader('Raw Data')  # subheader for raw data
 st.write(data.tail())  # display the last 5 rows of the data
 
-repData = data
-getCurrRate(selected_currency)
-repData['Close'] = getCurrRate(selected_currency)*repData['Close']
-repData['Open'] = getCurrRate(selected_currency)*repData['Open']
+
 
 def plot_raw_data():
     fig = go.Figure()
