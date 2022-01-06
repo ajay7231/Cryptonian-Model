@@ -14,8 +14,6 @@ from plotly import graph_objs as go
 url = 'https://api.exchangerate-api.com/v4/latest/USD'
 
 # Get the data from the API
-
-
 def getCurrRate(to_currency):
     data = requests.get(url).json()
     return float(data['rates'][to_currency])
@@ -53,8 +51,7 @@ cryptos = ("BTC", "ETH", "BNB",
            "USDT", "HEX", "SOL", "DOGE", "SHIB")
 
 # select the crypto from the select box and return it into selected_cryptos variable
-selected_cryptos = st.selectbox(
-    "Select Cryptocurrency for prediction", cryptos)
+selected_cryptos = st.selectbox("Select Cryptocurrency for prediction", cryptos)
 selected_currency = st.selectbox("Select currency", currencies)
 rate = getCurrRate(selected_currency)
 # slider to select the number of years of prediction from 1 to 4
@@ -62,7 +59,6 @@ n_years = st.slider("Years Of prediction:", 1, 4)
 
 period = n_years * 365  # number of days in a year
 # repData = None
-
 
 @st.cache  # store the donwloaded data in the cache so we don't have to download it again
 def load_data(ticker):  # ticker is basically the selected_cryptos variable
@@ -74,8 +70,8 @@ def load_data(ticker):  # ticker is basically the selected_cryptos variable
     repData['Open'] = rate*repData['Open']
     repData['High'] = rate*repData['High']
     repData['Low'] = rate*repData['Low']
-    repData['Volume'] = repData['Volume']*rate
-    repData['Adj Close'] = rate*repData['Adj Close']
+    repData['Volume'] = rate * repData['Volume']
+    repData['Adj Close'] = rate * repData['Adj Close']
 
     return [data, repData]
 
@@ -83,13 +79,13 @@ def load_data(ticker):  # ticker is basically the selected_cryptos variable
 # text to show the loading of data
 data_load_state = st.text("Loading data...")
 
-# synchronous call to function
-data, repData = load_data(selected_cryptos+"-USD")
+data, repData = load_data(selected_cryptos+"-USD")  # synchronous call to function
 # after the data is loaded, we can plot the raw data
 data_load_state.text("Loading data...done!")
 
 st.subheader('Raw Data')  # subheader for raw data
-st.write(data.tail())  # display the last 5 rows of the data
+st.write(repData.tail())  # display the last 5 rows of the data
+
 
 
 def plot_raw_data():
