@@ -83,9 +83,9 @@ st.write(data.tail())  # display the last 5 rows of the data
 def plot_raw_data():
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=data['Date'],
-                  y=data['Open']*getCurrRate(selected_currency), name='crypto_open'))
+                  y=(getCurrRate(selected_currency)*data['Open']), name='crypto_open'))
     fig.add_trace(go.Scatter(x=data['Date'],
-                  y=data['Close']*getCurrRate(selected_currency), name='crypto_close'))
+                  y=data['Close'], name='crypto_close'))
     fig.layout.update(title_text="Time Series Data",
                       xaxis_rangeslider_visible=True)
     st.plotly_chart(fig)
