@@ -52,8 +52,8 @@ cryptos = ("BTC", "ETH", "BNB",
 
 # select the crypto from the select box and return it into selected_cryptos variable
 selected_cryptos = st.selectbox("Select Cryptocurrency for prediction", cryptos)
-selected_currency= st.selectbox("Select currency", currencies)
-
+selected_currency = st.selectbox("Select currency", currencies)
+rate = getCurrRate(selected_currency)
 # slider to select the number of years of prediction from 1 to 4
 n_years = st.slider("Years Of prediction:", 1, 4)
 
@@ -66,15 +66,15 @@ def load_data(ticker):  # ticker is basically the selected_cryptos variable
     data = yf.download(ticker, START, TODAY)
     data.reset_index(inplace=True)  # This puts date in the very first column
     repData = data
-    repData['Close'] = getCurrRate(selected_currency)*repData['Close']
-    repData['Open'] = getCurrRate(selected_currency)*repData['Open']
-    return data, repData
+    repData['Close'] = rate*repData['Close']
+    repData['Open'] = rate*repData['Open']
+    return [data, repData]
 
 
 # text to show the loading of data
 data_load_state = st.text("Loading data...")
 
-data,repData = load_data(selected_cryptos+"-USD")  # synchronous call to function
+data, repData = load_data(selected_cryptos+"-USD")  # synchronous call to function
 # after the data is loaded, we can plot the raw data
 data_load_state.text("Loading data...done!")
 
