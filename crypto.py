@@ -68,6 +68,11 @@ def load_data(ticker):  # ticker is basically the selected_cryptos variable
     repData = data
     repData['Close'] = rate*repData['Close']
     repData['Open'] = rate*repData['Open']
+    repData['High'] = rate*repData['High']
+    repData['Low'] = rate*repData['Low']
+    repData['Volume'] = repData['Volume']*rate
+    repData['Adj Close'] = rate*repData['Adj Close']
+
     return [data, repData]
 
 
@@ -79,7 +84,7 @@ data, repData = load_data(selected_cryptos+"-USD")  # synchronous call to functi
 data_load_state.text("Loading data...done!")
 
 st.subheader('Raw Data')  # subheader for raw data
-st.write(data.tail())  # display the last 5 rows of the data
+st.write(repData.tail())  # display the last 5 rows of the data
 
 
 
