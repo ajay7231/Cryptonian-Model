@@ -2,6 +2,7 @@
 # yahoo finance to get the crypto data
 import streamlit as st
 from datetime import date
+from currency_converter import CurrencyConverter 
 
 import yfinance as yf
 from fbprophet import Prophet
@@ -13,9 +14,12 @@ from plotly import graph_objs as go
 START = "2015-01-01" # start date
 TODAY = date.today().strftime("%Y-%m-%d") # today's date and convert it into string format
 
+currencyConverter = CurrencyConverter()
+
 st.title("Crypto Prediction App") # title of the app
 
-# list of cryptos i.e. apple, google, microsoft, GameStop
+currencies = st.selectbox("Select currencies", currencyConverter.get_currency_list())
+
 cryptos = ("BTC-USD", "ETH-USD", "BNB-USD",
            "USDT-USD", "HEX-USD", "SOL-USD", "DOGE-USD", "SHIB-USD")
 
