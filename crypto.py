@@ -65,7 +65,7 @@ def load_data(ticker):  # ticker is basically the selected_cryptos variable
     # to download the data from yahoo finance for a specified start and end date
     data = yf.download(ticker, START, TODAY)
     data.reset_index(inplace=True)  # This puts date in the very first column
-    repData = data.copy()
+    repData = data
     repData['Close'] = getCurrRate(selected_currency)*repData['Close']
     repData['Open'] = getCurrRate(selected_currency)*repData['Open']
     return data, repData
