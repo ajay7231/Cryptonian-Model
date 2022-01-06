@@ -62,8 +62,8 @@ currencies = ["USD",
               "TRY"]
 
 
-cryptos = ("BTC-USD", "ETH-USD", "BNB-USD",
-           "USDT-USD", "HEX-USD", "SOL-USD", "DOGE-USD", "SHIB-USD")
+cryptos = ("BTC", "ETH", "BNB",
+           "USDT", "HEX", "SOL", "DOGE", "SHIB")
 
 # select the crypto from the select box and return it into selected_cryptos variable
 selected_cryptos = st.selectbox("Select dataset for prediction", cryptos)
@@ -86,7 +86,7 @@ def load_data(ticker):  # ticker is basically the selected_cryptos variable
 # text to show the loading of data
 data_load_state = st.text("Loading data...")
 
-data = load_data(selected_cryptos)  # synchronous call to function
+data = load_data(selected_cryptos+"-USD")  # synchronous call to function
 # after the data is loaded, we can plot the raw data
 data_load_state.text("Loading data...done!")
 
