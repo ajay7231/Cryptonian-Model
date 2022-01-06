@@ -21,6 +21,7 @@ clikit==0.6.2
 cmdstanpy<0.9.68
 convertdate==2.3.2
 crashtest==0.3.1
+currencyconverter==0.16.6
 cycler==0.11.0
 Cython==0.29.24
 debugpy==1.5.1
